@@ -3,12 +3,34 @@
  */
 package org.zebre;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.List;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class AppTest {
     @Test public void testAppHasAGreeting() {
         App classUnderTest = new App();
         assertNotNull(classUnderTest);
+    }
+    
+    @Test 
+    public void testLoadInputStream() {
+    	String input = "1721\n"
+    			+ "979\n"
+    			+ "66\n"
+    			+ "299\n"
+    			+ "675\n"
+    			+ "1456";
+        App classUnderTest = new App();
+        InputStream stream = new ByteArrayInputStream(input.getBytes());
+        List<String> result = classUnderTest.loadInput(stream);
+        assertEquals(6, result.size());
+        assertEquals("1721", result.get(0));
+        assertEquals("1456", result.get(5));
     }
 }

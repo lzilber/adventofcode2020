@@ -3,11 +3,23 @@
  */
 package org.zebre;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.zebre.puzzle.Puzzle1;
+import org.zebre.puzzle.Puzzle2;
+import org.zebre.puzzle.Puzzle3;
 
 public class App {
 	
@@ -15,12 +27,88 @@ public class App {
 		Puzzle1 puzzle = new Puzzle1();
 		AbstractMap.SimpleImmutableEntry<Integer, Integer> result1 = puzzle.match2(input, 2020);
 		List<Integer> result2 = puzzle.match3(input, 2020);
-        return "Result: " + result1 + " " + puzzle.multiply(result1) 
+        return "Result #1: " + result1 + " " + puzzle.multiply(result1) 
         	+ "\n" + result2 + " " + puzzle.multiply(result2);
     }
+    
+    public String solvePuzzle2() {
+    	Puzzle2 puzzle = new Puzzle2();
+    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-2-input.txt");
+    	List<String> entries = loadInput(path.toString());
+    	int count1 = 0, count2 = 0;
+    	for (String value : entries) {
+			if (puzzle.checkEntry(value, true)) {
+				count1++;
+			}
+			if (puzzle.checkEntry(value, false)) {
+				count2++;
+			}
+		}
+    	return "Result #2: found " + count1 + " valid entries"
+    			+ "\n" + "then found " + count2 + " matching entries";
+    }
+    
+    public String solvePuzzle3() {
+    	Puzzle3 puzzle = new Puzzle3();    	
+    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-3-input.txt");
+    	List<String> entries = loadInput(path.toString());
+    	int trees11 = puzzle.countTrees(entries, 1, 1, false);
+    	int trees31 = puzzle.countTrees(entries, 3, 1, false);
+    	int trees51 = puzzle.countTrees(entries, 5, 1, false);
+    	int trees71 = puzzle.countTrees(entries, 7, 1, false);    	
+    	int trees12 = puzzle.countTrees(entries, 1, 2, false);
+    	long result = (long)trees11 * (long)trees31 * (long)trees51 * (long)trees71 * (long)trees12;
+    	
+    	return "Result #3: found " + trees31 + " trees"
+    			+ "\n" + "then found " + trees11 + " * " + trees31 + " * " + trees51 + " * " + trees71 + " * " + trees12 + " * "
+    			+ "=" + result + " matching entries";
+    }
+    
+    /* Helper classes */
 
+    public List<String> loadInput(InputStream stream) {
+    	if (stream != null) {
+    		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+    		try {
+    			List<String> result = new ArrayList<>();
+				while(reader.ready()) {
+				     result.add(reader.readLine());
+				}
+				return result;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return Collections.emptyList();
+    }
+
+    
+    public List<String> loadInput(String filepath) {
+    	FileInputStream stream = openFile(filepath);
+    	return loadInput(stream);
+    }
+        
+    protected FileInputStream openFile(String filename) {
+        FileInputStream stream = null;
+        try {
+          stream = new FileInputStream(filename);
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        }
+        try {
+          if (stream != null && stream.available() == 0) {
+            stream.close();
+            stream = null;
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+          stream = null;
+        }
+        return stream;  
+    }
+    
     public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle1());
+        System.out.println(new App().solvePuzzle3());
     }
 
 static List<Integer> input = Arrays.asList(
