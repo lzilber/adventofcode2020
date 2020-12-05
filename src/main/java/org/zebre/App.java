@@ -20,6 +20,8 @@ import java.util.List;
 import org.zebre.puzzle.Puzzle1;
 import org.zebre.puzzle.Puzzle2;
 import org.zebre.puzzle.Puzzle3;
+import org.zebre.puzzle.Puzzle4;
+import org.zebre.puzzle.Puzzle5;
 
 public class App {
 	
@@ -62,6 +64,26 @@ public class App {
     	return "Result #3: found " + trees31 + " trees"
     			+ "\n" + "then found " + trees11 + " * " + trees31 + " * " + trees51 + " * " + trees71 + " * " + trees12 + " * "
     			+ "=" + result + " matching entries";
+    }
+    
+    public String solvePuzzle4() {
+    	Puzzle4 puzzle = new Puzzle4();
+    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-4-input.txt");
+    	List<String> entries = loadInput(path.toString());
+    	long result = puzzle.countValidPassportsStep1(entries);
+    	long check = puzzle.countValidPassportsStep2(entries);
+    	return "Result #4: found " + result + " valid passports"
+    			+ "\n" + "then found " + check + " on step 2.";
+    }
+    
+    public String solvePuzzle5() {
+    	Puzzle5 puzzle = new Puzzle5();
+    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-5-input.txt");
+    	List<String> entries = loadInput(path.toString());
+    	long maxId = puzzle.maxSeatId(entries);
+    	long mySeatId = puzzle.checkAvailableSeat();
+    	return "Result #5: max seatId " + maxId 
+    			+ "\n My seat is " + mySeatId;
     }
     
     /* Helper classes */
@@ -108,7 +130,7 @@ public class App {
     }
     
     public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle3());
+        System.out.println(new App().solvePuzzle5());
     }
 
 static List<Integer> input = Arrays.asList(
