@@ -22,18 +22,55 @@ import org.zebre.puzzle.Puzzle2;
 import org.zebre.puzzle.Puzzle3;
 import org.zebre.puzzle.Puzzle4;
 import org.zebre.puzzle.Puzzle5;
+import org.zebre.puzzle.Puzzle6;
 
 public class App {
-	
-    public String solvePuzzle1() {
-		Puzzle1 puzzle = new Puzzle1();
-		AbstractMap.SimpleImmutableEntry<Integer, Integer> result1 = puzzle.match2(input, 2020);
-		List<Integer> result2 = puzzle.match3(input, 2020);
-        return "Result #1: " + result1 + " " + puzzle.multiply(result1) 
-        	+ "\n" + result2 + " " + puzzle.multiply(result2);
+  
+    public String solvePuzzle6() {
+      Puzzle6 puzzle = new Puzzle6();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-6-input.txt");
+      List<String> entries = loadInput(path.toString());
+      return "Result #6: counted " + puzzle.addAllGroupsAnswers(entries) + " answers\n"
+          + "then counted " + puzzle.addStep2GroupsAnswers(entries) + " common answers";
     }
     
-    public String solvePuzzle2() {
+    public String solvePuzzle5() {
+      Puzzle5 puzzle = new Puzzle5();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-5-input.txt");
+      List<String> entries = loadInput(path.toString());
+      long maxId = puzzle.maxSeatId(entries);
+      long mySeatId = puzzle.checkAvailableSeat();
+      return "Result #5: max seatId " + maxId 
+          + "\n My seat is " + mySeatId;
+    }
+	
+    public String solvePuzzle3() {
+      Puzzle3 puzzle = new Puzzle3();     
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-3-input.txt");
+      List<String> entries = loadInput(path.toString());
+      int trees11 = puzzle.countTrees(entries, 1, 1, false);
+      int trees31 = puzzle.countTrees(entries, 3, 1, false);
+      int trees51 = puzzle.countTrees(entries, 5, 1, false);
+      int trees71 = puzzle.countTrees(entries, 7, 1, false);      
+      int trees12 = puzzle.countTrees(entries, 1, 2, false);
+      long result = (long)trees11 * (long)trees31 * (long)trees51 * (long)trees71 * (long)trees12;
+      
+      return "Result #3: found " + trees31 + " trees"
+          + "\n" + "then found " + trees11 + " * " + trees31 + " * " + trees51 + " * " + trees71 + " * " + trees12 + " * "
+          + "=" + result + " matching entries";
+    }
+    
+    public String solvePuzzle4() {
+      Puzzle4 puzzle = new Puzzle4();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-4-input.txt");
+      List<String> entries = loadInput(path.toString());
+      long result = puzzle.countValidPassportsStep1(entries);
+      long check = puzzle.countValidPassportsStep2(entries);
+      return "Result #4: found " + result + " valid passports"
+          + "\n" + "then found " + check + " on step 2.";
+    }
+    
+   public String solvePuzzle2() {
     	Puzzle2 puzzle = new Puzzle2();
     	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-2-input.txt");
     	List<String> entries = loadInput(path.toString());
@@ -50,40 +87,12 @@ public class App {
     			+ "\n" + "then found " + count2 + " matching entries";
     }
     
-    public String solvePuzzle3() {
-    	Puzzle3 puzzle = new Puzzle3();    	
-    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-3-input.txt");
-    	List<String> entries = loadInput(path.toString());
-    	int trees11 = puzzle.countTrees(entries, 1, 1, false);
-    	int trees31 = puzzle.countTrees(entries, 3, 1, false);
-    	int trees51 = puzzle.countTrees(entries, 5, 1, false);
-    	int trees71 = puzzle.countTrees(entries, 7, 1, false);    	
-    	int trees12 = puzzle.countTrees(entries, 1, 2, false);
-    	long result = (long)trees11 * (long)trees31 * (long)trees51 * (long)trees71 * (long)trees12;
-    	
-    	return "Result #3: found " + trees31 + " trees"
-    			+ "\n" + "then found " + trees11 + " * " + trees31 + " * " + trees51 + " * " + trees71 + " * " + trees12 + " * "
-    			+ "=" + result + " matching entries";
-    }
-    
-    public String solvePuzzle4() {
-    	Puzzle4 puzzle = new Puzzle4();
-    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-4-input.txt");
-    	List<String> entries = loadInput(path.toString());
-    	long result = puzzle.countValidPassportsStep1(entries);
-    	long check = puzzle.countValidPassportsStep2(entries);
-    	return "Result #4: found " + result + " valid passports"
-    			+ "\n" + "then found " + check + " on step 2.";
-    }
-    
-    public String solvePuzzle5() {
-    	Puzzle5 puzzle = new Puzzle5();
-    	Path path = FileSystems.getDefault().getPath("./src/main/resources/day-5-input.txt");
-    	List<String> entries = loadInput(path.toString());
-    	long maxId = puzzle.maxSeatId(entries);
-    	long mySeatId = puzzle.checkAvailableSeat();
-    	return "Result #5: max seatId " + maxId 
-    			+ "\n My seat is " + mySeatId;
+    public String solvePuzzle1() {
+    Puzzle1 puzzle = new Puzzle1();
+    AbstractMap.SimpleImmutableEntry<Integer, Integer> result1 = puzzle.match2(input, 2020);
+    List<Integer> result2 = puzzle.match3(input, 2020);
+        return "Result #1: " + result1 + " " + puzzle.multiply(result1) 
+          + "\n" + result2 + " " + puzzle.multiply(result2);
     }
     
     /* Helper classes */
@@ -130,7 +139,7 @@ public class App {
     }
     
     public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle5());
+        System.out.println(new App().solvePuzzle6());
     }
 
 static List<Integer> input = Arrays.asList(
