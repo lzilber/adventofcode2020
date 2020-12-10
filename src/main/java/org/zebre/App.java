@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.zebre.puzzle.Puzzle1;
 import org.zebre.puzzle.Puzzle2;
@@ -23,9 +24,39 @@ import org.zebre.puzzle.Puzzle3;
 import org.zebre.puzzle.Puzzle4;
 import org.zebre.puzzle.Puzzle5;
 import org.zebre.puzzle.Puzzle6;
+import org.zebre.puzzle.Puzzle7;
+import org.zebre.puzzle.Puzzle8;
+import org.zebre.puzzle.Puzzle8.Instruction;
+import org.zebre.puzzle.Puzzle9;
 
 public class App {
+
+    public String solvePuzzle9() {
+      Puzzle9 puzzle = new Puzzle9();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-9-input.txt");
+      List<String> entries = loadInput(path.toString());
+      // return "Result #9: number not matching is " + puzzle.findMatch(entries, 25);
+      return "Result #9: part 2 sum is " + puzzle.findSumOfMatchRangeBounds(entries, 100, puzzle.PART1);
+    }
   
+    public String solvePuzzle8() {
+      Puzzle8 puzzle = new Puzzle8();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-8-input.txt");
+      List<String> entries = loadInput(path.toString());
+      Map<Integer, Instruction> program = puzzle.loadProgram(entries);
+      return "Result #8: accumulator before loop is " + puzzle.runProgramUntilLoop(program);
+      //return "Result #8: End reached when swapping " + puzzle.runProgramUntilEnd(program);
+      // -> End reached after swapping line 254
+    }
+  
+    public String solvePuzzle7() {
+      Puzzle7 puzzle = new Puzzle7();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-7-input.txt");
+      List<String> entries = loadInput(path.toString());
+      return "Result #7: counted " + puzzle.countBagOptionsFor(entries, "shiny gold") + " shiny gold bags container\n"
+          + "part 2: " + puzzle.countBagInside(entries, "shiny gold");
+    }
+    
     public String solvePuzzle6() {
       Puzzle6 puzzle = new Puzzle6();
       Path path = FileSystems.getDefault().getPath("./src/main/resources/day-6-input.txt");
@@ -139,7 +170,7 @@ public class App {
     }
     
     public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle6());
+        System.out.println(new App().solvePuzzle9());
     }
 
 static List<Integer> input = Arrays.asList(
