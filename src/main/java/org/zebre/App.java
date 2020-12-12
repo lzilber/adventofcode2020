@@ -18,7 +18,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 import org.zebre.puzzle.Puzzle1;
+import org.zebre.puzzle.Puzzle10;
+import org.zebre.puzzle.Puzzle11;
+import org.zebre.puzzle.Puzzle12;
+import org.zebre.puzzle.Puzzle12.Position;
 import org.zebre.puzzle.Puzzle2;
 import org.zebre.puzzle.Puzzle3;
 import org.zebre.puzzle.Puzzle4;
@@ -31,6 +37,42 @@ import org.zebre.puzzle.Puzzle9;
 
 public class App {
 
+    public static void main(String[] args) {
+        System.out.println(new App().solvePuzzle12());
+    }
+
+    public String solvePuzzle12() {
+      Puzzle12 puzzle = new Puzzle12(); 
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-12-input.txt");
+      List<String> entries = loadInput(path.toString());
+      puzzle.initWaypoint(10, 1);
+      Position boat = puzzle.runActions(entries);
+      return "Result #12: " + puzzle.getManhattanDistance() + " boat:" + boat;      
+    }
+    
+    public String solvePuzzle11() {
+      Puzzle11 puzzle = new Puzzle11();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-11-input.txt");
+      List<String> entries = loadInput(path.toString());
+      int[][] seats = puzzle.loadInput(entries);
+      int rounds = 0;
+      while( puzzle.roundOfRules(seats) && rounds < 1000 ) {
+        rounds++;
+      }
+      return "Result #11: part 2 " + puzzle.countSeats('#', seats);
+    }
+
+    public String solvePuzzle10() {
+      Puzzle10 puzzle = new Puzzle10();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-10-input.txt");
+      List<String> entries = loadInput(path.toString());
+      int[] adapters = puzzle.sortedAdapters(entries);
+      int jolt1 = puzzle.numberOfJolts(1, adapters);
+      int jolt3 = puzzle.numberOfJolts(3, adapters) + 1;
+      return "Result #10: part 1 " + jolt1 + "*" + jolt3 + "=" + (jolt1*jolt3)
+          + "\n part2 : " + puzzle.oneJoltsAdapterArrangements(adapters);
+    }
+  
     public String solvePuzzle9() {
       Puzzle9 puzzle = new Puzzle9();
       Path path = FileSystems.getDefault().getPath("./src/main/resources/day-9-input.txt");
@@ -167,10 +209,6 @@ public class App {
           stream = null;
         }
         return stream;  
-    }
-    
-    public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle9());
     }
 
 static List<Integer> input = Arrays.asList(
