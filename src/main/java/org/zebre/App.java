@@ -3,6 +3,26 @@
  */
 package org.zebre;
 
+import org.zebre.puzzle.Puzzle1;
+import org.zebre.puzzle.Puzzle10;
+import org.zebre.puzzle.Puzzle11;
+import org.zebre.puzzle.Puzzle12;
+import org.zebre.puzzle.Puzzle12.Position;
+import org.zebre.puzzle.Puzzle13;
+import org.zebre.puzzle.Puzzle14;
+import org.zebre.puzzle.Puzzle15;
+import org.zebre.puzzle.Puzzle16;
+import org.zebre.puzzle.Puzzle17;
+import org.zebre.puzzle.Puzzle2;
+import org.zebre.puzzle.Puzzle3;
+import org.zebre.puzzle.Puzzle4;
+import org.zebre.puzzle.Puzzle5;
+import org.zebre.puzzle.Puzzle6;
+import org.zebre.puzzle.Puzzle7;
+import org.zebre.puzzle.Puzzle8;
+import org.zebre.puzzle.Puzzle8.Instruction;
+import org.zebre.puzzle.Puzzle9;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,29 +38,64 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-
-import org.zebre.puzzle.Puzzle1;
-import org.zebre.puzzle.Puzzle10;
-import org.zebre.puzzle.Puzzle11;
-import org.zebre.puzzle.Puzzle12;
-import org.zebre.puzzle.Puzzle12.Position;
-import org.zebre.puzzle.Puzzle2;
-import org.zebre.puzzle.Puzzle3;
-import org.zebre.puzzle.Puzzle4;
-import org.zebre.puzzle.Puzzle5;
-import org.zebre.puzzle.Puzzle6;
-import org.zebre.puzzle.Puzzle7;
-import org.zebre.puzzle.Puzzle8;
-import org.zebre.puzzle.Puzzle8.Instruction;
-import org.zebre.puzzle.Puzzle9;
-
 public class App {
 
     public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle12());
+        System.out.println(new App().solvePuzzle17());
+    }
+    
+    public String solvePuzzle17() {
+      Puzzle17 puzzle = new Puzzle17();
+      List<String> entries = Arrays.asList(
+          "....###.", 
+          "#...####", 
+          "##.#.###",
+          "..#.#...",
+          "##.#.#.#",
+          "#.######",
+          "..#..#.#",
+          "######.#");          
+      return "Result #17, part 1: " +puzzle.solvePart1(entries);
     }
 
+    public String solvePuzzle16() {
+      Puzzle16 puzzle = new Puzzle16();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-16-input.txt");
+      List<String> entries = loadInput(path.toString());
+      puzzle.solvePart2(entries);
+/*
+departure location: 32-174 or 190-967  : [2, 6,        11, 14, 15, 16,     18]     => 18
+departure station: 50-580 or 588-960   : [2, 6, 7, 10, 11, 14, 15, 16, 17, 18, 19] => 17
+departure platform: 35-595 or 621-972  : [2, 6,    10, 11, 14, 15, 16,     18, 19] => 10
+departure track: 41-85 or 104-962      : [2, 6,        11, 14, 15, 16,     18, 19] => 19
+departure date: 39-293 or 299-964      : [2, 6,        11, 14, 15, 16]             => 
+departure time: 44-192 or 215-962      : [2, 6, 7, 10, 11, 14, 15, 16,     18, 19] => 7
+
+71,223,167,191,233,83
+
+
+ */
+      return "Result #16: " +puzzle.solvePart1(entries);
+    }
+    
+    public String solvePuzzle15() {
+      Puzzle15 puzzle = new Puzzle15();
+      return "Result #15, part 2: " +puzzle.solvePart2();
+    }
+    
+
+    public String solvePuzzle14() {
+      Puzzle14 puzzle = new Puzzle14();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-14-input.txt");
+      List<String> entries = loadInput(path.toString());
+      return "Result #14: " +puzzle.solvePart1(entries);
+    }
+    
+    public String solvePuzzle13() {
+      Puzzle13 puzzle = new Puzzle13();
+      return "Result #13: " +puzzle.solvePart2();
+    }
+    
     public String solvePuzzle12() {
       Puzzle12 puzzle = new Puzzle12(); 
       Path path = FileSystems.getDefault().getPath("./src/main/resources/day-12-input.txt");
@@ -78,7 +133,7 @@ public class App {
       Path path = FileSystems.getDefault().getPath("./src/main/resources/day-9-input.txt");
       List<String> entries = loadInput(path.toString());
       // return "Result #9: number not matching is " + puzzle.findMatch(entries, 25);
-      return "Result #9: part 2 sum is " + puzzle.findSumOfMatchRangeBounds(entries, 100, puzzle.PART1);
+      return "Result #9: part 2 sum is " + puzzle.findSumOfMatchRangeBounds(entries, 100, Puzzle9.PART1);
     }
   
     public String solvePuzzle8() {
