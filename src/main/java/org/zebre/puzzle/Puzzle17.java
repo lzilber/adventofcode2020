@@ -8,13 +8,24 @@ import java.util.Map;
 public class Puzzle17 {
   
   
-  public int solvePart1(List<String> input) {
+  public int solvePart2(List<String> input) {
     Map<String, Cube> myPocketDim = createCubesFrom(input);
+    
     for(int i=0; i<6; i++) {
       myPocketDim = oneCycle(myPocketDim);    
     }
     return myPocketDim.keySet().size();
   }
+  
+  /*
+  public int solvePart1(List<String> input) {
+    Map<String, Cube> myPocketDim = createCubesFrom(input);
+    for(int i=0; i<6; i++) {
+      myPocketDim = oneCycle(myPocketDim, false);    
+    }
+    return myPocketDim.keySet().size();
+  }
+  */
   
   public Map<String, Cube> createCubesFrom(List<String> input) {
     Map<String, Cube> results = new HashMap<>();
@@ -22,7 +33,7 @@ public class Puzzle17 {
     for(String line : input) {
       char[] chars = line.toCharArray();
       for (int x = 0; x < chars.length; x++) {
-        Cube c = new Cube(x, y, 0);
+        Cube c = new Cube4(x, y, 0, 0);
         if (chars[x] == '#') {
           c.setActive(true);
         }
@@ -37,15 +48,16 @@ public class Puzzle17 {
     // Build dimension to check
     List<Cube> extended = buildExtendedList(pocketDimension);
         
-    List<Cube> activated = new ArrayList<>();
+    List<Cube4> activated = new ArrayList<>();
     for (Cube cube : extended) {
-      if (cube.nextState(getNeighbors(cube, pocketDimension))) {
-        activated.add(cube);
+      Cube4 cube4 = (Cube4) cube;
+      if (cube4.nextState(getNeighbors4(cube4, pocketDimension))) {
+        activated.add(cube4);
       }
     }
     
     Map<String, Cube> newDimension = new HashMap<>();
-    for(Cube c: activated) {
+    for(Cube4 c: activated) {
       c.setActive(true);
       newDimension.put(c.key(), c);    
     }
@@ -55,10 +67,11 @@ public class Puzzle17 {
   public List<Cube> buildExtendedList(Map<String, Cube> pocketDimension) {
     List<Cube> extended = new ArrayList<>();
     for (Cube entry : pocketDimension.values()) {
-      if (!extended.contains(entry)) {
-        extended.add(entry);
+      Cube4 cube4 = (Cube4) entry;
+      if (!extended.contains(cube4)) {
+        extended.add(cube4);
       }
-      for (Cube neighbor : getNeighbors(entry, pocketDimension)) {
+      for (Cube neighbor : getNeighbors4(cube4, pocketDimension)) {
         if (!extended.contains(neighbor)) {
           extended.add(neighbor);
         }
@@ -85,12 +98,34 @@ public class Puzzle17 {
     return results;
   }
   
+  List<Cube> getNeighbors4(Cube4 cube, Map<String, Cube> pocketDim) {
+    List<Cube> results = new ArrayList<>();
+    for (int x=cube.getX()-1; x<=cube.getX()+1; x++) {      
+      for (int y=cube.getY()-1; y<=cube.getY()+1; y++) {
+        for (int z=cube.getZ()-1; z<=cube.getZ()+1; z++) {
+            for (int w = cube.getW() - 1; w <= cube.getW() + 1; w++) {
+              String key = makeKey4(x, y, z, w);
+              if (!key.equals(cube.key())) {
+                Cube neighbor = pocketDim.getOrDefault(key, new Cube4(x, y, z, w));
+                results.add(neighbor);
+              }
+            }
+        }
+      }
+    }
+    return results;
+  }
+  
   public static String makeKey(int x, int y, int z) {
     return x + ":" + y +":" + z;
   }
+  
+  public static String makeKey4(int x, int y, int z, int w) {
+    return x + ":" + y +":" + z + ":" + w;
+  }
 
   public class Cube {
-    final String id;
+    protected String id;
     final int x;
     final int y;
     final int z;
@@ -162,5 +197,26 @@ public class Puzzle17 {
     public int hashCode() {
       return id.hashCode();
     }
+  }
+  
+  public class Cube4 extends Cube {
+
+    final int w;
+
+    public Cube4(int x, int y, int z, int w) {
+      super(x, y, z);
+      this.w = w;
+      this.id = makeKey4(x, y, z, w);
+    }
+
+    public Cube4(int x, int y, int z) {
+      super(x, y, z);
+      w = 0;
+    }
+
+    public int getW() {
+      return this.w;
+    }
+   
   }
 }

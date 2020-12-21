@@ -31,17 +31,6 @@ public class Puzzle17Test {
     }
     assertEquals(112, pocketDimension.keySet().size());
   }
-/*
-1:2:0
-1:1:0
-2:0:0
-
- 2 .N..
- 1 .Y.#
- 0 ..Y#
- -1..#.
- * 
- */
   
   @Test
   public void testOneCycle() {

@@ -55,7 +55,7 @@ public class App {
           "#.######",
           "..#..#.#",
           "######.#");          
-      return "Result #17, part 1: " +puzzle.solvePart1(entries);
+      return "Result #17, part 2: " +puzzle.solvePart2(entries);
     }
 
     public String solvePuzzle16() {
