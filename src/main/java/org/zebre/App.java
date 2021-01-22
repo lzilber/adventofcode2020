@@ -16,6 +16,7 @@ import org.zebre.puzzle.Puzzle17;
 import org.zebre.puzzle.Puzzle18;
 import org.zebre.puzzle.Puzzle19;
 import org.zebre.puzzle.Puzzle2;
+import org.zebre.puzzle.Puzzle20;
 import org.zebre.puzzle.Puzzle3;
 import org.zebre.puzzle.Puzzle4;
 import org.zebre.puzzle.Puzzle5;
@@ -43,7 +44,14 @@ import java.util.Map;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println(new App().solvePuzzle19());
+        System.out.println(new App().solvePuzzle20());
+    }
+    
+    public String solvePuzzle20() {
+      Puzzle20 puzzle = new Puzzle20();
+      Path path = FileSystems.getDefault().getPath("./src/main/resources/day-20-input.txt");
+      List<String> entries = loadInput(path.toString());
+      return "Result #20: " +puzzle.solvePart1(entries);
     }
     
     public String solvePuzzle19() {
